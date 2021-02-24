@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalabe=no">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
   <title>
     <%= htmlWebpackPlugin.options.title %>
@@ -19,5 +19,25 @@
   <div id="app"></div>
   <!-- built files will be auto injected -->
 </body>
+<script>
+  function calculateSize() {
+    let clientWidth = document.documentElement.clientWidth;
+    // 750 为 设计稿最大宽度（px）
+    if (clientWidth >= 750) {
+      clientWidth = 750;
+    }
+    // 7.5 为 设计稿最大宽度（px） / 100（份） => 750 / 100
+    let htmlSize = clientWidth / 7.5;
+    document.documentElement.style.fontSize = htmlSize + 'px';
+  }
+  calculateSize();
+  window.addEventListener('resize', calculateSize);
+</script>
+<style>
+  #app {
+    margin: 0 auto;
+    max-width: 750px; /* 设计稿最大宽度 */
+  }
+</style>
 
 </html>
