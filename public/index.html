@@ -9,6 +9,30 @@
   <title>
     <%= htmlWebpackPlugin.options.title %>
   </title>
+  <script>
+    function calculateSize() {
+      let clientWidth = document.documentElement.getBoundingClientRect().width || document.documentElement.clientWidth
+      // 750 = 设计稿最大宽度值（px）
+      if (clientWidth >= 750) {
+        clientWidth = 750
+      }
+      // 7.5 = 设计稿最大宽度值（px） / postcss-plugin-px2rem 插件的 rootValue 值 => 750 / 100
+      let htmlSize = clientWidth / 7.5
+      document.documentElement.style.fontSize = htmlSize + 'px'
+      console.log("触发！！！")
+    }
+    function debounce(func, delay) {
+      let timeout = null
+      return function () {
+        clearTimeout(timeout)
+        timeout = setTimeout(() => {
+          func.apply(this, arguments)
+        }, delay)
+      }
+    }
+    calculateSize()
+    window.addEventListener('resize', debounce(calculateSize, 500))
+  </script>
 </head>
 
 <body>
@@ -19,24 +43,12 @@
   <div id="app"></div>
   <!-- built files will be auto injected -->
 </body>
-<script>
-  function calculateSize() {
-    let clientWidth = document.documentElement.clientWidth;
-    // 750 为 设计稿最大宽度（px）
-    if (clientWidth >= 750) {
-      clientWidth = 750;
-    }
-    // 7.5 为 设计稿最大宽度（px） / 100（份） => 750 / 100
-    let htmlSize = clientWidth / 7.5;
-    document.documentElement.style.fontSize = htmlSize + 'px';
-  }
-  calculateSize();
-  window.addEventListener('resize', calculateSize);
-</script>
+
 <style>
   #app {
     margin: 0 auto;
-    max-width: 750px; /* 设计稿最大宽度 */
+    max-width: 750px;
+    /* 设计稿最大宽度 */
   }
 </style>
 
